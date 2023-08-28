@@ -44,7 +44,8 @@ But replace `search_params` with correct params, like:
 
 2. [postman](https://learning.postman.com/docs/sending-requests/grpc/grpc-client-overview/) using the address `127.0.0.1:9001`.
 
-Should look something like this
+Should look something like this:
+![postman](postman.png)
 
 If you update your proto files and want to regenerate your Kotlin/Java build code, you might want to run the clean
 command before rebuilding to clean up any left over generated code.
