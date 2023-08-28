@@ -142,12 +142,12 @@ So for example, I implemented a mock grpc reservations server to be able to test
     - to decouple (as much as possible) internal representations from external contracts/types
     - to decouple third party implementation/dependency from search request parameters/types
 - I took test examples from the docker service to recreate reliable production data in tests
-- Improvement implemented: test the reservations `ReservationsGrpcClient` / removing it from tests
-    - Initially struggled to test the reservations grpc client, but eventually figured out how to do do it
-    - Meanwhile though, I implemented a flag to disable it from tests, like so:
 - In-memory storage choice: a singleton Kotlin MutableList
   - I debated using a in-memory database for this such as H2, I saw there are ways to use it with kotlin/quarkus
   - however, ultimately decided agaisnt it for the sake of time.
+- Improvement implemented: test the reservations `ReservationsGrpcClient` / removing it from tests
+    - Initially struggled to test the reservations grpc client, but eventually figured out how to do do it
+    - Meanwhile though, I implemented a flag to disable it from tests, like so:
 
 ```kotlin
 import io.quarkus.runtime.StartupEvent
