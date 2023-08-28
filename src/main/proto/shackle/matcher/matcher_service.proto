@@ -1,0 +1,108 @@
+/*
+ * Shackle Matcher Service
+ * Provides an api for searching for reservations, returning a single one or an error.
+ */
+
+syntax = "proto3";
+
+package shackle.matcher;
+
+option java_package = "com.exploreshackle.api.matcher.v1";
+
+/*
+ * Matcher service, and its single RPC that responds with a single reservation.
+ * The response includes a status for aiding in determining issues.
+ */
+service MatcherService {
+  rpc Search(SearchRequest) returns (SearchResult);
+}
+
+/*
+ * The request message, with information needed to find the reservation
+ */
+message SearchRequest {
+  /* First given name, must be present. Can be abbreviated. */
+  string first_name = 1;
+
+  /* Last name, must be present. Cannot be abbreviated. */
+  string last_name = 2;
+
+  /* The booking confirmation number; this is present for direct bookings with the hotel. */
+  string booking_confirmation_number = 3;
+
+  /* Confirmation code that is present for online bookings;
+   * the guest receives this code in the confirmation message from the booking engine.
+   */
+  string web_confirmation_code = 4;
+
+  /* Travel agent confirmation code; only present for travel agent bookings.
+   * The guest may have received the confirmation code from their agent.
+   */
+  string travel_agent_confirmation_code = 5;
+  LocalDate arrival_date = 6;
+}
+
+/*
+ * The high level result which includes the success and failure statuses along with the actual reservation
+ */
+message SearchResult {
+  enum SearchResultStatus {
+    SUCCESS = 0;
+    NOT_FOUND = 1;
+    REQUEST_MISSING_INFORMATION = 2;
+  }
+  SearchResultStatus status = 1;
+  MatcherReservation reservation = 2;
+}
+
+/*
+ * A hotel reservation.
+ */
+message MatcherReservation {
+  /* Timestamp the reservation was received. */
+  int64 timestamp = 1;
+
+  /* The internal identifier of the reservation; always present. */
+  int64 internal_id = 2;
+
+  /* The booking confirmation number; this is present for direct bookings with the hotel. */
+  string booking_confirmation_number = 3;
+
+  /* Confirmation code that is present for online bookings;
+   * the guest receives this code in the confirmation message from the booking engine.
+   */
+  string web_confirmation_code = 4;
+
+  /* Travel agent confirmation code; only present for travel agent bookings.
+   * The guest may have received the confirmation code from their agent.
+   */
+  string travel_agent_confirmation_code = 5;
+
+  /* Guest details */
+  GuestDetails guest_details = 6;
+
+  /* Arrival date */
+  LocalDate arrival_date = 7;
+  /* Departure date */
+  LocalDate departure_date = 8;
+}
+
+message LocalDate {
+  int32 year = 1;
+  int32 month = 2;
+  int32 day = 3;
+}
+
+message GuestDetails {
+  string first_name = 1;
+  string last_name = 2;
+  string title = 3;
+  string phone_number = 4;
+  string email = 5;
+  string address = 6;
+  string city = 7;
+  string postal_code = 8;
+  string country = 9;
+  string company_name = 10;
+}
+
