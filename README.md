@@ -1,6 +1,6 @@
 # Reservation Matcher
 
-This an implementation of the Shakle exercise described in [EXERCISE.md](EXERCISE.md)
+This an implementation of the Shackle exercise described in [EXERCISE.md](EXERCISE.md)
 
 ## Usage
 
@@ -99,6 +99,7 @@ I've made as few field as possible required, but no less than that:
 - Guest first name
 - Guest last name
 - Arrival date
+
 Also, one of the three confirmation code fields must be present:
 - Webcode or BookingCode or AgentCode
 
@@ -116,6 +117,17 @@ With that done, we could:
   - There are other issues that could happen with names. Some people have multiple surnames for example, and might have used only one of them.
     - Even worse, some providers could just truncate on a certain length or simply drop one of the multiple surnames.
   - Similarly, there are things like middle names or composite first name which can cause confusion as well
+
+## Testing
+
+I tried to test the main pieces of work:
+- reservations grpc client
+- matcher grpc server
+- reservations repo (in-memory storage)
+
+In general, I tried to minimize duplication of tests, and make tests actually test unique things.
+I tried isolating the tests to the correct abstraction level and granularity.
+So for example, I implemented a mock grpc reservations server to be able to test the reservation grpc client without having to actually run/call the docker service in the tests.
 
 ## Reasoning
 
@@ -179,7 +191,7 @@ However, upon implementing the `MockReservationsGrpcServer`, this was no longer 
 - Property-based testing: Given the seemlingly unchanging nature of the data, we could attempt to implement some property-based test to cover lots of edge cases and make the tests more reliable
   - cons: no easy integration with Quarkus, would need manual work/setup or an additional test framework.
 
-# Production-ready TODOs
+## Production-ready TODOs
 
 - I considered out-of-scope for this exercise, but would definitely have done it in a real scenario
     - CI
@@ -191,7 +203,7 @@ However, upon implementing the `MockReservationsGrpcServer`, this was no longer 
         - build app
         - deploy
     - git higiene / PRs / code review
-    - test coverage tracking setup
+    - test coverage tracking setup like codecov or coveralls
     - monitoring
       - api uptime
         - could perhaps use this which Quarkus gives us for free https://quarkus.io/guides/grpc-service-implementation#health
@@ -199,4 +211,4 @@ However, upon implementing the `MockReservationsGrpcServer`, this was no longer 
     - logs
       - a centralized logs strategy is always welcome to debug / investigate
     - metrics
-      - would perhaps be nice
+      - would perhaps be nice to have something like Prometheus
