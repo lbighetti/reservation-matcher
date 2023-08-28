@@ -7,7 +7,7 @@ This an implementation of the Shackle exercise described in [EXERCISE.md](EXERCI
 You will first need to install the Quarkus Command Line Interface, you can read on installation instructions 
 [here](https://quarkus.io/guides/cli-tooling).
 
-To build the application and generate the gRPC client stub and server base, run the command:
+To build the application and generate the gRPC client stub and server base, and run tests, run the command:
 ```shell
 quarkus build
 ```
